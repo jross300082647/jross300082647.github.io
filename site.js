@@ -11,3 +11,7 @@ const welcome = document.querySelector('#welcome p')
 if (isMorning) welcome.textContent = 'Welcome, Good Morning!'
 else if (isAfternoon) welcome.textContent = 'Welcome, Good Afternoon!'
 else if (isEvening) welcome.textContent = 'Welcome, Good Evening!'
+
+const key = "It's a secret to everybody."
+
+localStorage.setItem(key, "It's dangerous to go alone, take this! (I haven't really played a Zelda game but I know the quote!)")
