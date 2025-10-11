@@ -53,6 +53,9 @@ li {
 }
 
 #welcome p {
+    clear: both;
+    padding-top: 10px;
+    font-size: 2em;
     text-align: center;
 }
 
@@ -78,4 +81,62 @@ li {
     align-items: center;
     gap: 10px;
     margin-top: 10px;
+}
+
+.navMain ul {
+    padding: 0px;
+    margin: 0%;
+}
+
+.navMain ul li {
+    background: linear-gradient(to bottom, rgb(121, 11, 211) 80%, black);
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+
+
+.navMain a {
+    display: block;
+    box-sizing: border-box;
+    line-height: 1.6em;
+    border: 1px solid black;
+    
+}
+
+.navMain a:active, .navMain a:link, .navMain a:visited {
+    color: rgb(14, 8, 2);
+    text-decoration: none;
+}
+
+.navMain a:hover  {
+    background: linear-gradient(to bottom, rgb(56, 3, 92) 80%, black);
+    color: white;
+    border: 1px solid black;
+
+}
+
+.todoMain {
+    clear: both;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 0px 50px 0px;
+}
+
+.todoMain ul {
+    border: 4px groove gray;
+    background-color: rgb(250, 250, 239);
+    padding: 1% 0%;
+    height: 500px;
+    overflow: auto;
+}
+
+.todoMain li {
+    padding: 5px 0px 0px 0px;
+    margin: 0% 10% 5px 10%;
+    border: 1px inset grey;
+    border-radius: 6%;
+    color: rgb(14, 8, 2);
+    background-color: rgb(238, 234, 196);
 }
