@@ -1,97 +1,133 @@
-// Constants for the page
-const mainPage = document.querySelector('.mainPage')
-const todoPage = document.querySelector('.todoPage')
+(async() => {
+    // Constants for the page
+    const mainPage = document.querySelector('.mainPage')
+    const todoPage = document.querySelector('.todoPage')
+    const randomPokemonDiv = document.querySelector('.randomPokemon')
 
-// Page check
-console.log('Main Page: ' + (mainPage != null).toString(),'\nTodo Page: ' + (todoPage != null).toString())
+    // Page check
+    console.log('Main Page: ' + (mainPage != null).toString(),'\nTodo Page: ' + (todoPage != null).toString())
 
-// If on main page
-if (mainPage) {
-    console.log('Hello Ryan :D')
+    // If on main page
+    if (mainPage) {
+        console.log('Hello Ryan :D')
 
-    const hours = new Date().getHours() // get the current hour
+        const hours = new Date().getHours() // get the current hour
 
-    const isMorning = hours >= 4 && hours < 12 // is it morning?
-    const isAfternoon = hours >= 12 && hours < 17 // is it afternoon?
-    const isEvening = hours >= 17 || hours < 4 // is it evening?
+        const isMorning = hours >= 4 && hours < 12 // is it morning?
+        const isAfternoon = hours >= 12 && hours < 17 // is it afternoon?
+        const isEvening = hours >= 17 || hours < 4 // is it evening?
 
-    const welcome = document.querySelector('#welcome p')
+        const welcome = document.querySelector('#welcome p')
 
-    if (isMorning) welcome.textContent = 'Welcome, Good Morning!'
-    else if (isAfternoon) welcome.textContent = 'Welcome, Good Afternoon!'
-    else if (isEvening) welcome.textContent = 'Welcome, Good Evening!'
+        if (isMorning) welcome.textContent = 'Welcome, Good Morning!'
+        else if (isAfternoon) welcome.textContent = 'Welcome, Good Afternoon!'
+        else if (isEvening) welcome.textContent = 'Welcome, Good Evening!'
 
-    const key = "It's a secret to everybody."
+        const key = "It's a secret to everybody."
 
-    localStorage.setItem(key, "It's dangerous to go alone, take this! (I haven't really played a Zelda game but I know the quote!)")
+        localStorage.setItem(key, "It's dangerous to go alone, take this! (I haven't really played a Zelda game but I know the quote!)")
 
-    const urls = [
-        'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        'https://images.pexels.com/photos/933964/pexels-photo-933964.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        'https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        'https://images.pexels.com/photos/1251861/pexels-photo-1251861.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-        'https://images.pexels.com/photos/1370296/pexels-photo-1370296.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
-    ].map(url => { (new Image()).src = url; return url })
+        const urls = [
+            'https://images.pexels.com/photos/1454360/pexels-photo-1454360.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            'https://images.pexels.com/photos/933964/pexels-photo-933964.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            'https://images.pexels.com/photos/267885/pexels-photo-267885.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            'https://images.pexels.com/photos/1251861/pexels-photo-1251861.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+            'https://images.pexels.com/photos/1370296/pexels-photo-1370296.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        ].map(url => { (new Image()).src = url; return url })
 
-    const images = document.querySelectorAll('#carousel img')
+        const images = document.querySelectorAll('#carousel img')
 
-    let currentImage = 0
-    const showImages = () => {
-        const offset = currentImage % urls.length
-        images.forEach((image, index) => {
-            const imageIndex = (index + offset + urls.length) % urls.length
-            image.src = urls[imageIndex]
+        let currentImage = 0
+        const showImages = () => {
+            const offset = currentImage % urls.length
+            images.forEach((image, index) => {
+                const imageIndex = (index + offset + urls.length) % urls.length
+                image.src = urls[imageIndex]
+            })
+        }
+
+        showImages()
+
+        const prevButton = document.querySelector('#prev')
+        const nextButton = document.querySelector('#next')
+
+        prevButton.addEventListener('click', () => {
+            currentImage--
+            showImages()
         })
+
+        nextButton.addEventListener('click', () => {
+            currentImage++
+            showImages()
+        })
+
+        setInterval(() => {
+            currentImage++
+            showImages()
+        }, 5000)
     }
 
-    showImages()
+    // If on Todo page
+    if (todoPage) {
+        const todoList = document.querySelector('.todo-list')
+        const todoInput = document.querySelector('#new-todo')
+        const addToDoButton = document.querySelector('#todoButton')
+        const todos = JSON.parse(localStorage.getItem('todo-list')) || []
 
-    const prevButton = document.querySelector('#prev')
-    const nextButton = document.querySelector('#next')
+        // RenderTodos method that adds the user input to the array/local 
+        // storage (Couldn't figure out a way to make this more concise)
+        const renderTools = () => {
+            if(todoInput.value != '') todos.push({text: todoInput.value, completed: false}) // Checks for blank input
+            todos.forEach((todo) => { 
+                    const li = document.createElement('li')
+                    li.textContent = todo.text
+                    todoList.append(li)
+            })
+            localStorage.setItem('todo-list', JSON.stringify(todos))
+        }
 
-    prevButton.addEventListener('click', () => {
-        currentImage--
-        showImages()
-    })
-
-    nextButton.addEventListener('click', () => {
-        currentImage++
-        showImages()
-    })
-
-    setInterval(() => {
-        currentImage++
-        showImages()
-    }, 5000)
-}
-
-// If on Todo page
-if (todoPage) {
-    const todoList = document.querySelector('.todo-list')
-    const todoInput = document.querySelector('#new-todo')
-    const addToDoButton = document.querySelector('#todoButton')
-    const todos = JSON.parse(localStorage.getItem('todo-list')) || []
-
-    // RenderTodos method that adds the user input to the array/local 
-    // storage (Couldn't figure out a way to make this more concise)
-    const renderTools = () => {
-        if(todoInput.value != '') todos.push({text: todoInput.value, completed: false}) // Checks for blank input
-        todos.forEach((todo) => { 
-                const li = document.createElement('li')
-                li.textContent = todo.text
-                todoList.append(li)
-        })
-        localStorage.setItem('todo-list', JSON.stringify(todos))
-    }
-
-    // Calls the renderTools method on load
-    renderTools()
-
-    // Clears the list and then calls the function when the user clicks the button
-    addToDoButton.addEventListener('click', () => {
-        todoList.innerHTML = ''
+        // Calls the renderTools method on load
         renderTools()
-    })
 
-    
-}
+        // Clears the list and then calls the function when the user clicks the button
+        addToDoButton.addEventListener('click', () => {
+            todoList.innerHTML = ''
+            renderTools()
+        })
+
+        
+    }
+
+    // Async function that returns a random pokemon from 0-1025 (man they are getting up there in numbers)
+    const getRandomPokemon = async () => {
+        // Awaits a response from the pokeapi
+        const response = await fetch('https://pokeapi.co/api/v2/pokemon/' + Math.floor(Math.random() * 1025))
+        // Sets a pokemon object to the json response and returns the object
+        const pokemon = await response.json()
+        return pokemon
+    }
+
+    // Renders the pokemon to the webpage
+    const renderPokemon = pokemon => {
+        // Creates a img and h3 element
+        const img = document.createElement('img')
+        const h3 = document.createElement('h3')
+        // Variable for the pokemon name
+        const pokeName = pokemon.name
+        // Sets the element's content
+        img.src = pokemon.sprites.front_default
+        img.alt = pokeName
+        h3.textContent = pokeName.charAt(0).toUpperCase() + pokeName.slice(1) // Found this cool technique to make the first letter capitalized
+        // Appends the elements to the div
+        randomPokemonDiv.append(img)
+        randomPokemonDiv.append(h3)
+        // Testing logs
+        // console.log(pokemon)
+        // console.log(img.src)
+        // console.log(img.alt)
+    }
+
+    // Calls the renderPokemon function
+    renderPokemon(await getRandomPokemon())
+
+})()

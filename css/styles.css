@@ -140,3 +140,8 @@ li {
     color: rgb(14, 8, 2);
     background-color: rgb(238, 234, 196);
 }
+
+h3 {
+    text-align: center;
+    margin-top: 0;
+}
